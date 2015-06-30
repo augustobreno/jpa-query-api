@@ -1,0 +1,5 @@
+/sources/vcgerente-query/*.classpath
+/sources/vcgerente-query/*.project
+/sources/vcgerente-query/.settings/*.prefs
+/sources/vcgerente-query/target
+/sources/vcgerente-query/.settings
