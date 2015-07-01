@@ -2,7 +2,6 @@ package br.com.vocegerente.vcgerente.query.repository;
 
 import java.lang.reflect.Field;
 import java.util.logging.Level;
-import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import br.com.vocegerente.vcgerente.query.util.StringUtil;
@@ -13,7 +12,7 @@ import br.com.vocegerente.vcgerente.query.util.StringUtil;
  */
 public class Property {
 
-    private Logger log = LogManager.getLogManager().getLogger(Property.class.getName());
+    private Logger log = Logger.getLogger(Property.class.getName());
 	private Field field;
 	private Object value;
 	private Property nestedName;

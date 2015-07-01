@@ -3,3 +3,5 @@
 /sources/vcgerente-query/.settings/*.prefs
 /sources/vcgerente-query/target
 /sources/vcgerente-query/.settings
+/sources/vcgerente-query/src/main/java/rebel.xml
+/sources/vcgerente-query/*.log

@@ -9,7 +9,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
-import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import org.apache.commons.beanutils.NestedNullException;
@@ -24,7 +23,7 @@ import br.com.vocegerente.vcgerente.query.exception.QbeException;
  */
 public class ReflectionUtil {
 	
-	protected final static Logger log = LogManager.getLogManager().getLogger(ReflectionUtil.class.getName());
+	protected final static Logger log = Logger.getLogger(ReflectionUtil.class.getName());
 	
 	/**
 	 * Verifica se este objeto é um proxy, devolvendo a respectiva instância concreta.
