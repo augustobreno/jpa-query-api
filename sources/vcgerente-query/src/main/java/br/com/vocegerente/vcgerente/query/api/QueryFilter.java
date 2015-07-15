@@ -1,7 +1,12 @@
 package br.com.vocegerente.vcgerente.query.api;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.mysema.query.jpa.JPAQueryMixin;
+import com.mysema.query.types.CollectionExpression;
 import com.mysema.query.types.EntityPath;
+import com.mysema.query.types.path.ListPath;
 import com.mysema.query.types.path.PathBuilder;
 
 /**
@@ -13,88 +18,122 @@ import com.mysema.query.types.path.PathBuilder;
 
 public class QueryFilter<ENTITY> extends JPAQueryMixin<QueryFilter<ENTITY>> {
 
-	/**
-	 * Objeto cujos valores encontrados em seus atributos e associações serão
-	 * considerados como restrições dinâmicas na execução da query.
-	 */
-	private ENTITY example;
+    /**
+     * Objeto cujos valores encontrados em seus atributos e associações serão
+     * considerados como restrições dinâmicas na execução da query.
+     */
+    private ENTITY example;
 
-	/**
-	 * Configura até qual nível de profundidade nas associações o QBE deverá
-	 * buscar por propriedades preenchidas.
-	 */
-	private int deepLevel = 2;
+    /**
+     * Configura até qual nível de profundidade nas associações o QBE deverá
+     * buscar por propriedades preenchidas.
+     */
+    private int deepLevel = 2;
 
-	/**
-	 * Indicação da entidade base para realização da consulta.
-	 */
-	private EntityPath<? extends ENTITY> from;
-	
-	private EntityPath<? extends ENTITY> projection;
-	
-	/**
-	 * @param from
-	 *            Q-type da entidade primária para a construção da consulta.
-	 */
-	public <SUBTIPO extends ENTITY> QueryFilter(EntityPath<SUBTIPO> from) {
-		from(from);
-		this.from = from;
-		setProjection(from);
-		setSelf(this); // para funcionamento das chamadas aninhadas
-	}
-	
-	/**
-	 * @param entityType Tipo da entidade associada a este Filter.
-	 */
-	public <SUBTIPO extends ENTITY> QueryFilter(Class<SUBTIPO> entityType) {
-		this(buildEntityPath(entityType));
-	}
-	
-	protected static <ENTITY> EntityPath<ENTITY> buildEntityPath(Class<ENTITY> entityType) {
-		// o alias padrão é o nome da classe com o primeiro caractere minúsculo
-		String aliasName = buildAliasName(entityType);
-		PathBuilder<ENTITY> entityPath = new PathBuilder<ENTITY>(entityType, aliasName); 
-		return entityPath;
-	}
+    /**
+     * Indicação da entidade base para realização da consulta.
+     */
+    private EntityPath<? extends ENTITY> from;
 
-	protected static <ENTITY> String buildAliasName(Class<ENTITY> entityType) {
-		String simpleName = entityType.getSimpleName();
-		String aliasName = simpleName.toLowerCase().charAt(0) +  simpleName.substring(1);
-		return aliasName;
-	}
+    /**
+     * Para configuração da projeção do retorno da consulta.
+     */
+    private EntityPath<? extends ENTITY> projection;
 
-	public ENTITY getExample() {
-		return example;
-	}
+    /**
+     * Alguns fetchs são interessantes de serem feitos de forma desatachada (em
+     * uma consulta independente):
+     * 
+     * - Mutiplas coleções: O hibernate não suporta consulta com fetch de
+     * múltiplas coleções, então os fetches podem ser realizados de forma
+     * independente e em seguida atachados ao resultado da consulta original.
+     * 
+     */
+    private List<DetachedFetchFilter<?>> detachedCollectionFetchList = new ArrayList<DetachedFetchFilter<?>>();
 
-	public QueryFilter<ENTITY> setExample(ENTITY example) {
-		this.example = example;
-		return this;
-	}
+    /**
+     * @param from
+     *            Q-type da entidade primária para a construção da consulta.
+     */
+    public <SUBTIPO extends ENTITY> QueryFilter(EntityPath<SUBTIPO> from) {
+        from(from);
+        this.from = from;
+        setProjection(from);
+        setSelf(this); // para funcionamento das chamadas aninhadas
+    }
 
-	public int getDeepLevel() {
-		return deepLevel;
-	}
+    /**
+     * @param entityType
+     *            Tipo da entidade associada a este Filter.
+     */
+    public <SUBTIPO extends ENTITY> QueryFilter(Class<SUBTIPO> entityType) {
+        this(buildEntityPath(entityType));
+    }
 
-	public QueryFilter<ENTITY> setDeepLevel(int deepLevel) {
-		this.deepLevel = deepLevel;
-		return this;
-	}
+    protected static <ENTITY> EntityPath<ENTITY> buildEntityPath(
+            Class<ENTITY> entityType) {
+        // o alias padrão é o nome da classe com o primeiro caractere minúsculo
+        String aliasName = buildAliasName(entityType);
+        PathBuilder<ENTITY> entityPath = new PathBuilder<ENTITY>(entityType,
+                aliasName);
+        return entityPath;
+    }
 
-	public EntityPath<? extends ENTITY> getProjection() {
-		return projection;
-	}
+    protected static <ENTITY> String buildAliasName(Class<ENTITY> entityType) {
+        String simpleName = entityType.getSimpleName();
+        String aliasName = simpleName.toLowerCase().charAt(0)
+                + simpleName.substring(1);
+        return aliasName;
+    }
 
-	public void setProjection(EntityPath<? extends ENTITY> projection) {
-		this.projection = projection;
-	}
+    public ENTITY getExample() {
+        return example;
+    }
 
-	public EntityPath<? extends ENTITY> getFrom() {
-		return from;
-	}
+    public QueryFilter<ENTITY> setExample(ENTITY example) {
+        this.example = example;
+        return this;
+    }
 
-	public void setFrom(EntityPath<ENTITY> from) {
-		this.from = from;
-	}
-	
+    public int getDeepLevel() {
+        return deepLevel;
+    }
+
+    public QueryFilter<ENTITY> setDeepLevel(int deepLevel) {
+        this.deepLevel = deepLevel;
+        return this;
+    }
+
+    public EntityPath<? extends ENTITY> getProjection() {
+        return projection;
+    }
+
+    public void setProjection(EntityPath<? extends ENTITY> projection) {
+        this.projection = projection;
+    }
+
+    public EntityPath<? extends ENTITY> getFrom() {
+        return from;
+    }
+
+    public void setFrom(EntityPath<ENTITY> from) {
+        this.from = from;
+    }
+
+    public <E> DetachedFetchFilter<E> detachedFetchFilter(CollectionExpression<?,E> target) {
+        if (target instanceof ListPath) {
+            
+            @SuppressWarnings({ "rawtypes", "unchecked" })
+            DetachedFetchFilter<E> detachedFetchFilter = new DetachedFetchFilter<E>(this, (ListPath) target);
+            this.detachedCollectionFetchList.add(detachedFetchFilter);
+            return detachedFetchFilter;
+            
+        }
+        return null;
+    }
+
+    public List<DetachedFetchFilter<?>> getDetachedCollectionFetchList() {
+        return detachedCollectionFetchList;
+    }
+    
 }

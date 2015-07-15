@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.persistence.EntityManager;
 
+import br.com.vocegerente.vcgerente.query.api.DetachedFetchFilter;
 import br.com.vocegerente.vcgerente.query.api.QueryFilter;
 import br.com.vocegerente.vcgerente.query.exception.QbeException;
 import br.com.vocegerente.vcgerente.query.repository.operator.CustomTemplates;
@@ -43,11 +44,26 @@ public class QbeContextProcessor<ENTITY> {
 		processPredicates();
 		
 		@SuppressWarnings("unchecked")
-		List<ENTITY> list = (List<ENTITY>) createJpaQuery().list(filter.getProjection());
+		List<ENTITY> result = (List<ENTITY>) createJpaQuery().list(filter.getProjection());
 		
-		return list;
+		processDetachedFetches(result);
+		
+		return result;
 	}
 	
+	protected void processDetachedFetches(List<ENTITY> result) {
+		if (result != null && !result.isEmpty()) {
+			
+			for (DetachedFetchFilter<?> detachedFilter : filter.getDetachedCollectionFetchList()) {
+			
+				DetachedFetchesProcessor detachedProcessor = createDetachedProcessor(result, detachedFilter);
+				detachedProcessor.fetch();
+				
+			}
+			
+		}
+	}
+
 	public long count() {
 		processPredicates();
 		return createJpaQuery().count();
@@ -194,6 +210,10 @@ public class QbeContextProcessor<ENTITY> {
 
 	protected void setFilter(QueryFilter<ENTITY> filter) {
 		this.filter = filter;
+	}
+
+	public DetachedFetchesProcessor createDetachedProcessor(List<ENTITY> result, DetachedFetchFilter<?> detachedFilter) {
+		return new DetachedFetchesProcessor(entityManager, detachedFilter, result);
 	}
 
 }
