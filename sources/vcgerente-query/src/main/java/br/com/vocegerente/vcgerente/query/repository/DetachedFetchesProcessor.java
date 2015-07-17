@@ -151,6 +151,7 @@ public class DetachedFetchesProcessor {
 		
 		if (collection == null) {
 			collection = createAppropriateCollection();
+			partialFetchResult.put(primaryEntity, collection);
 		}
 		
 		return collection;
@@ -299,11 +300,6 @@ public class DetachedFetchesProcessor {
 	 */
 	protected void addToFetchResultMap(Map<Object, Collection<Object>> fetchResultMap, Object primaryEntity, Object fetchedEntity) {
 		Collection<Object> associationList = getFetchedCollection(fetchResultMap, primaryEntity);
-		if (associationList == null) {
-			associationList = new ArrayList<Object>();
-			fetchResultMap.put(primaryEntity, associationList);
-		}
-
 		associationList.add(fetchedEntity);
 	}
 	
