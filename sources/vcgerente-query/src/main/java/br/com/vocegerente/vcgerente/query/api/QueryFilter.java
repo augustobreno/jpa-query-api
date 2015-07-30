@@ -135,5 +135,19 @@ public class QueryFilter<ENTITY> extends JPAQueryMixin<QueryFilter<ENTITY>> {
     public List<DetachedFetchFilter<?>> getDetachedCollectionFetchList() {
         return detachedCollectionFetchList;
     }
+
+    /**
+     * @param property Nome da propriedade.
+     * @return Uma expressão a partir do nome de uma propriedade.
+     */
+    public PathBuilder<Object> createExpression(String property) {
+
+        // nome do alias associado ao "from" do filtro, para manter consistente
+        // a query.
+        String alias = getFrom().getMetadata().getName();
+        PathBuilder<ENTITY> entityPath = new PathBuilder<ENTITY>(getFrom().getType(), alias);
+        return entityPath.get(property);
+        
+    }
     
 }
