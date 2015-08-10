@@ -23,6 +23,7 @@
 				<executions>
 					<execution>
 						<goals>
+							<goal>process</goal>
 							<goal>test-process</goal>
 						</goals>
 						<configuration>
@@ -95,11 +96,13 @@
 		<dependency>
 			<groupId>com.mysema.querydsl</groupId>
 			<artifactId>querydsl-apt</artifactId>
+			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>com.mysema.querydsl</groupId>
 			<artifactId>querydsl-jpa</artifactId>
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 </project>
