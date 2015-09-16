@@ -16,26 +16,9 @@
 				<filtering>true</filtering>
 			</testResource>
 		</testResources>
+		
 		<plugins>
-			<plugin>
-				<groupId>com.mysema.maven</groupId>
-				<artifactId>apt-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>process</goal>
-							<goal>test-process</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>target/generated-sources/java</outputDirectory>
-							<processor>com.mysema.query.apt.jpa.JPAAnnotationProcessor</processor>
-							<options>
-								<querydsl.entityAccessors>true</querydsl.entityAccessors>
-							</options>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+
 		</plugins>
 	</build>
 
@@ -96,13 +79,11 @@
 		<dependency>
 			<groupId>com.mysema.querydsl</groupId>
 			<artifactId>querydsl-apt</artifactId>
-			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>com.mysema.querydsl</groupId>
 			<artifactId>querydsl-jpa</artifactId>
-			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 </project>
