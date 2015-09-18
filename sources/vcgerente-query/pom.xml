@@ -2,12 +2,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>br.com.vocegerente</groupId>
-		<artifactId>vcgerente-pom</artifactId>
+		<groupId>br.com.vcg</groupId>
+		<artifactId>vcg-libs</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>vcgerente-query</artifactId>
+	<artifactId>vcg-query</artifactId>
 
 	<build>
 		<testResources>
@@ -28,8 +28,8 @@
 			<artifactId>hibernate-core</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>br.com.vocegerente</groupId>
-			<artifactId>vcgerente-tests</artifactId>
+			<groupId>br.com.vcg</groupId>
+			<artifactId>vcg-tests</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
