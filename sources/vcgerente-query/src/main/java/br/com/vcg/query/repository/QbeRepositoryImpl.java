@@ -33,12 +33,12 @@ public class QbeRepositoryImpl implements QbeRepository {
 	 * @see br.com.vcg.query.repository.QbeRepository#findAllBy(br.com.vcg.query.api.QueryFilter)
 	 */
 	@Override
-	public <ENTITY> List<ENTITY> findAllBy(QueryFilter<? extends ENTITY> filter) {
+	public <ENTITY> List<ENTITY> findAllBy(QueryFilter<ENTITY> filter) {
 		return createContextProcessor(filter).findAllBy();
 	}
 
 	@Override
-	public <ENTITY> long count(QueryFilter<? extends ENTITY> filter) {
+	public <ENTITY> long count(QueryFilter<ENTITY> filter) {
 		return createContextProcessor(filter).count();
 	}
 	

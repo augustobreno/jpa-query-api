@@ -15,7 +15,7 @@ public interface QbeRepository {
 	 * @return Lista com as entidades equivalentes às configurações encontradas
 	 *         no filtro informado
 	 */
-	public abstract <ENTITY> List<ENTITY> findAllBy(QueryFilter<? extends ENTITY> filter);
+	public abstract <ENTITY> List<ENTITY> findAllBy(QueryFilter<ENTITY> filter);
 
 	/**
 	 * Conta o número de registros existentes de acordo com as configurações/restrições
@@ -23,6 +23,6 @@ public interface QbeRepository {
 	 * @param queryFilter Filtro com restrições para a query.
 	 * @return Número de registros que se adequam ao filtro.
 	 */
-	public abstract <ENTITY> long count(QueryFilter<? extends ENTITY> queryFilter);
+	public abstract <ENTITY> long count(QueryFilter<ENTITY> queryFilter);
 
 }

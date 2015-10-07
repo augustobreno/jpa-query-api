@@ -237,7 +237,9 @@ public class DetachedFetchesProcessor {
 		
 
 		QbeRepository qbeRepository = new QbeRepositoryImpl(entityManager);
-		List<Object> fetchResult = qbeRepository.findAllBy(detachedFilter);
+		
+		@SuppressWarnings("unchecked")
+        List<Object> fetchResult = (List<Object>) qbeRepository.findAllBy(detachedFilter);
 
 		
 		for (Object fetchedEntity : fetchResult) {
