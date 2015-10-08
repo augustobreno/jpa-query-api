@@ -149,5 +149,11 @@ public class QueryFilter<ENTITY> extends JPAQueryMixin<QueryFilter<ENTITY>> {
         return entityPath.get(property);
         
     }
-    
+
+    /**
+     * @return Alias utilizado na construção das consultas no JPA.
+     */
+    public String getAlias() {
+        return getFrom().getMetadata().getName();
+    }
 }
