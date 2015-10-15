@@ -2,6 +2,7 @@ package br.com.vcg.query.repository;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
@@ -70,10 +71,18 @@ public class QbeContextProcessor<ENTITY> {
 	}
 	
 	protected JPAQuery createJpaQuery() {
-		return new JPAQuery(entityManager, CustomTemplates.INSTANCE, filter.getMetadata());
+		JPAQuery jpaQuery = new JPAQuery(entityManager, CustomTemplates.INSTANCE, filter.getMetadata());
+		addHints(jpaQuery, filter);
+        return jpaQuery;
 	}
 
-	/**
+	private void addHints(JPAQuery jpaQuery, QueryFilter<? extends ENTITY> filter2) {
+        for (Entry<String, Object> hint : filter.getHints().entrySet()) {
+            jpaQuery.setHint(hint.getKey(), hint.getValue());
+        }
+    }
+
+    /**
 	 * Processa todos os predicados (restrições) encontrados do
 	 * {@link QueryFilter}, considerando as diferenças existentes entre valores
 	 * do exemplo e customizados.

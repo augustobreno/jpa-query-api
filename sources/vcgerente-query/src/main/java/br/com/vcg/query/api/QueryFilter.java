@@ -1,7 +1,9 @@
 package br.com.vcg.query.api;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.mysema.query.jpa.JPAQueryMixin;
 import com.mysema.query.types.CollectionExpression;
@@ -51,6 +53,11 @@ public class QueryFilter<ENTITY> extends JPAQueryMixin<QueryFilter<ENTITY>> {
      */
     private List<DetachedFetchFilter<?>> detachedCollectionFetchList = new ArrayList<DetachedFetchFilter<?>>();
 
+    /**
+     * Para configuração da Query.
+     */
+    private Map<String, Object> hints = new HashMap<String, Object>();
+    
     /**
      * @param from
      *            Q-type da entidade primária para a construção da consulta.
@@ -150,10 +157,20 @@ public class QueryFilter<ENTITY> extends JPAQueryMixin<QueryFilter<ENTITY>> {
         
     }
 
+    public void addHint(String key, Object value) {
+        hints.put(key, value);
+    }
+    
     /**
      * @return Alias utilizado na construção das consultas no JPA.
      */
     public String getAlias() {
         return getFrom().getMetadata().getName();
     }
+
+    public Map<String, Object> getHints() {
+        return hints;
+    }
+    
+    
 }
