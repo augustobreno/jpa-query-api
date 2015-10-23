@@ -77,7 +77,7 @@ public class QueryFilter<ENTITY> extends JPAQueryMixin<QueryFilter<ENTITY>> {
         this(buildEntityPath(entityType));
     }
 
-    protected static <ENTITY> EntityPath<ENTITY> buildEntityPath(
+    public static <ENTITY> EntityPath<ENTITY> buildEntityPath(
             Class<ENTITY> entityType) {
         // o alias padrão é o nome da classe com o primeiro caractere minúsculo
         String aliasName = buildAliasName(entityType);
