@@ -1,8 +1,6 @@
 package br.com.vcg.query.util;
 
 import java.beans.PropertyDescriptor;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -142,16 +140,11 @@ public class ReflectionUtil {
 			PropertyUtils.setProperty(object, propertyName, value);
 			done = true;
 		} catch (Exception e) {
-			log.info("Não foi possível alterar o valor da propriedade via setter. Tentando a alteração direta do atributo: " 
+			log.fine("Não foi possível alterar o valor da propriedade via setter. Tentando a alteração direta do atributo: " 
 						+ object.getClass().getSimpleName() + "." + propertyName);
-			
-			StringWriter sw = new StringWriter();
-			e.printStackTrace(new PrintWriter(sw));
-			log.info(sw.toString());
 		}
 		
 		if (!done) {
-                    log.log(Level.FINE, "not done");
 			// tenta atualizar o valor do field			
 			Field field = getField(object.getClass(), propertyName);
 			
@@ -161,20 +154,17 @@ public class ReflectionUtil {
 	
 			Object fieldOwner;
 			if (!propertyName.contains(".")) {
-                            log.log(Level.FINE, "propertyName nnão contém ponto");
 				// se a propriedade for primária, quem contém o field é o próprio objeto
 				fieldOwner = object;
 			} else {
-                            log.log(Level.FINE, "propertyName contém ponto");
 				// se a propriedade for aninhada, quem contém o field é o atributo imediatamente anterior à propriedade
 				fieldOwner = getValue(object, propertyName.substring(0, propertyName.lastIndexOf(".")));
 			}
 
-                        log.log(Level.FINE, "Setar o valor da propriedade");
-                        log.log(Level.FINER, "fieldOwner = " + fieldOwner);
-                        log.log(Level.FINER, "field = " + field);
-                        log.log(Level.FINER, "value = " + value);
 			setValue(fieldOwner, field, value);
+			
+			log.fine("Valor do atributo alterado diretamente: " 
+                    + object.getClass().getSimpleName() + "." + propertyName);
 		}	
 	}
 	
