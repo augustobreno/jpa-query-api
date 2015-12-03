@@ -5,6 +5,7 @@
 		<groupId>br.com.vcg</groupId>
 		<artifactId>vcg-libs</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../../../vcg-pom/sources/vcgerente-pom/pom.xml</relativePath>
 	</parent>
 
 	<artifactId>vcg-query</artifactId>
