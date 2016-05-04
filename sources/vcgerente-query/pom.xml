@@ -19,7 +19,13 @@
 		</testResources>
 		
 		<plugins>
-
+			<!-- 
+			QUERY DSL 
+			-->
+			<plugin>
+				<groupId>com.mysema.maven</groupId>
+				<artifactId>apt-maven-plugin</artifactId>
+			</plugin>
 		</plugins>
 	</build>
 
