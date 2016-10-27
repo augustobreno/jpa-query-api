@@ -1,6 +1,6 @@
 package br.com.vcg.query.repository.operator;
 
-import com.mysema.query.jpa.HQLTemplates;
+import com.querydsl.jpa.HQLTemplates;
 
 /**
  * Constantes para definições de novos templates QueryDsl.

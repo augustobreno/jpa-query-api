@@ -5,15 +5,15 @@ import java.util.List;
 import br.com.vcg.query.extension.ParamExample;
 import br.com.vcg.query.repository.QbeContextProcessor;
 
-import com.mysema.query.types.Constant;
-import com.mysema.query.types.Expression;
-import com.mysema.query.types.FactoryExpression;
-import com.mysema.query.types.Operation;
-import com.mysema.query.types.ParamExpression;
-import com.mysema.query.types.Path;
-import com.mysema.query.types.SubQueryExpression;
-import com.mysema.query.types.TemplateExpression;
-import com.mysema.query.types.Visitor;
+import com.querydsl.core.types.Constant;
+import com.querydsl.core.types.Expression;
+import com.querydsl.core.types.FactoryExpression;
+import com.querydsl.core.types.Operation;
+import com.querydsl.core.types.ParamExpression;
+import com.querydsl.core.types.Path;
+import com.querydsl.core.types.SubQueryExpression;
+import com.querydsl.core.types.TemplateExpression;
+import com.querydsl.core.types.Visitor;
 
 /**
  * Seta os parâmetros que estão no contexto no jpaQuery.

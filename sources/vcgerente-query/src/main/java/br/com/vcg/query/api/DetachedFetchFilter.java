@@ -1,7 +1,7 @@
 package br.com.vcg.query.api;
-import com.mysema.query.types.PathMetadata;
-import com.mysema.query.types.expr.SimpleExpression;
-import com.mysema.query.types.path.ListPath;
+import com.querydsl.core.types.PathMetadata;
+import com.querydsl.core.types.dsl.ListPath;
+import com.querydsl.core.types.dsl.SimpleExpression;
 
 /**
  * Armazena as configurações básicas para permtir a executação de um fetch desatachado de coleções.
@@ -16,7 +16,7 @@ public class DetachedFetchFilter<E> extends QueryFilter<E>{
 	private ListPath<E, SimpleExpression<? super E>> target;
 	
 	/** Atalho para os metadados da configuração da coleção a ser carregada. */
-	private PathMetadata<?> targetMetadata;
+	private PathMetadata targetMetadata;
 	
 	/** Acesso à configuração da consulta pai original */
 	private QueryFilter<?> parent;
@@ -42,7 +42,7 @@ public class DetachedFetchFilter<E> extends QueryFilter<E>{
 	/**
 	 * @return metadados da configuração da coleção a ser fetched.
 	 */
-	public PathMetadata<?> getTargetMetadata() {
+	public PathMetadata getTargetMetadata() {
 		return targetMetadata;
 	}
 

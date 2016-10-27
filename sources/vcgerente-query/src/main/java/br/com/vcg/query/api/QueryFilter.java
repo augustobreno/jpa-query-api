@@ -5,11 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.mysema.query.jpa.JPAQueryMixin;
-import com.mysema.query.types.CollectionExpression;
-import com.mysema.query.types.EntityPath;
-import com.mysema.query.types.path.ListPath;
-import com.mysema.query.types.path.PathBuilder;
+import com.querydsl.core.types.CollectionExpression;
+import com.querydsl.core.types.EntityPath;
+import com.querydsl.core.types.dsl.ListPath;
+import com.querydsl.core.types.dsl.PathBuilder;
+import com.querydsl.jpa.JPAQueryMixin;
 
 /**
  * Filtro que dirige a integração do conceito de QBE (QueryByExample) com o
@@ -65,7 +65,7 @@ public class QueryFilter<ENTITY> extends JPAQueryMixin<QueryFilter<ENTITY>> {
     public <SUBTIPO extends ENTITY> QueryFilter(EntityPath<SUBTIPO> from) {
         from(from);
         this.from = from;
-        setProjection(from);
+        setProjectionEntity(from);
         setSelf(this); // para funcionamento das chamadas aninhadas
     }
 
@@ -115,7 +115,7 @@ public class QueryFilter<ENTITY> extends JPAQueryMixin<QueryFilter<ENTITY>> {
         return projection;
     }
 
-    public void setProjection(EntityPath<? extends ENTITY> projection) {
+    public void setProjectionEntity(EntityPath<? extends ENTITY> projection) {
         this.projection = projection;
     }
 

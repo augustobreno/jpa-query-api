@@ -10,10 +10,10 @@ import org.junit.Test;
 
 import br.com.vcg.query.api.QueryFilter;
 import br.com.vcg.query.domain.Cidade;
-import br.com.vcg.query.domain.Uf;
-import br.com.vcg.query.repository.QbeRepositoryImpl;
 import br.com.vcg.query.domain.QCidade;
 import br.com.vcg.query.domain.QUf;
+import br.com.vcg.query.domain.Uf;
+import br.com.vcg.query.repository.QbeRepositoryImpl;
 
 /**
  * Testa o funcionamento das opções de ordenação disponibilizadas pelo QBE.

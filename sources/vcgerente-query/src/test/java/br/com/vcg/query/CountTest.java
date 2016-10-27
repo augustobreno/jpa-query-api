@@ -9,11 +9,11 @@ import org.junit.Test;
 
 import br.com.vcg.query.api.QueryFilter;
 import br.com.vcg.query.domain.Pessoa;
+import br.com.vcg.query.domain.QPessoa;
+import br.com.vcg.query.domain.QUf;
 import br.com.vcg.query.domain.Uf;
 import br.com.vcg.query.extension.Example;
 import br.com.vcg.query.repository.QbeRepository;
-import br.com.vcg.query.domain.QPessoa;
-import br.com.vcg.query.domain.QUf;
 
 /**
  * Valida o comportamento da operações count em diversos cenários.

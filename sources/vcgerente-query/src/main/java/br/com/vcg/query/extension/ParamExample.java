@@ -1,7 +1,7 @@
 package br.com.vcg.query.extension;
 
-import com.mysema.query.types.ParamExpression;
-import com.mysema.query.types.expr.Param;
+import com.querydsl.core.types.ParamExpression;
+import com.querydsl.core.types.dsl.Param;
 
 /**
  * Demarcador de parâmetro que será substituído pelo atributo correspondente no exemplo.
