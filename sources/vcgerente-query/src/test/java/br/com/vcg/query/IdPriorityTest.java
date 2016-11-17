@@ -8,16 +8,16 @@ import org.junit.Test;
 
 import br.com.vcg.query.api.QueryFilter;
 import br.com.vcg.query.domain.Cidade;
+import br.com.vcg.query.domain.QCidade;
 import br.com.vcg.query.domain.Uf;
 import br.com.vcg.query.repository.QbeRepository;
-import br.com.vcg.query.domain.QCidade;
 
 /**
  * Testes relacionados à priorização do ID em consultas que utilizam um objeto exemplo.
  * @author augusto
  *
  */
-public class IdPrioritytEST extends QbeTestBase {
+public class IdPriorityTest extends QbeTestBase {
 
 	/**
 	 * O ID da entidade, quando preenchido deve ser priorizado sobre os demais atributos,

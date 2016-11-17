@@ -20,7 +20,7 @@ import br.com.vcg.query.api.DetachedFetchFilter;
 import br.com.vcg.query.exception.QbeException;
 import br.com.vcg.query.util.ReflectionUtil;
 
-import com.mysema.query.types.path.PathBuilder;
+import com.querydsl.core.types.dsl.PathBuilder;
 
 /**
  * Processa os fetches desatachados para que sejam executados em uma consulta
@@ -232,7 +232,7 @@ public class DetachedFetchesProcessor {
 		PathBuilder<Object> mappedByPath = pathBuilder.get(mappedByProperty);
 		
 		// configura o filtro
-		detachedFilter.leftJoin(mappedByPath).fetch();  // para evitar consultas adicionais durante a manipulação dos dados
+		detachedFilter.leftJoin(mappedByPath).fetchJoin();  // para evitar consultas adicionais durante a manipulação dos dados
 		detachedFilter.where(mappedByPath.in(originalEntityList)); // restringindo com o relacionamento inverso (mappedby)
 		
 

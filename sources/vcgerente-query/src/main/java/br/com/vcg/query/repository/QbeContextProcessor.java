@@ -17,13 +17,13 @@ import br.com.vcg.query.repository.visitor.ReplaceVisitorParamExample;
 import br.com.vcg.query.repository.visitor.VisitorContext;
 import br.com.vcg.query.util.ReflectionUtil;
 
-import com.mysema.query.jpa.impl.JPAQuery;
-import com.mysema.query.support.ReplaceVisitor;
-import com.mysema.query.types.ParamExpression;
-import com.mysema.query.types.Path;
-import com.mysema.query.types.Predicate;
-import com.mysema.query.types.path.ComparablePath;
-import com.mysema.query.types.path.StringPath;
+import com.querydsl.core.support.ReplaceVisitor;
+import com.querydsl.core.types.ParamExpression;
+import com.querydsl.core.types.Path;
+import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.ComparablePath;
+import com.querydsl.core.types.dsl.StringPath;
+import com.querydsl.jpa.impl.JPAQuery;
 
 /**
  * Mantém um contexto para a execução de cada consulta realizada, permitindo o compartilhamento
@@ -45,7 +45,7 @@ public class QbeContextProcessor<ENTITY> {
 		processPredicates();
 		
 		@SuppressWarnings("unchecked")
-		List<ENTITY> result = (List<ENTITY>) createJpaQuery().list(filter.getProjection());
+		List<ENTITY> result = (List<ENTITY>) createJpaQuery().fetch();
 		
 		processDetachedFetches(result);
 		
@@ -67,16 +67,16 @@ public class QbeContextProcessor<ENTITY> {
 
 	public long count() {
 		processPredicates();
-		return createJpaQuery().count();
+		return createJpaQuery().fetchCount();
 	}
 	
 	protected JPAQuery createJpaQuery() {
 		JPAQuery jpaQuery = new JPAQuery(entityManager, CustomTemplates.INSTANCE, filter.getMetadata());
-		addHints(jpaQuery, filter);
+		addHints(jpaQuery);
         return jpaQuery;
 	}
 
-	private void addHints(JPAQuery jpaQuery, QueryFilter<? extends ENTITY> filter2) {
+	private void addHints(JPAQuery jpaQuery) {
         for (Entry<String, Object> hint : filter.getHints().entrySet()) {
             jpaQuery.setHint(hint.getKey(), hint.getValue());
         }
@@ -198,10 +198,10 @@ public class QbeContextProcessor<ENTITY> {
 			if (!cacheCustomPredicates.contains(propStringPath)) {
 				Object propValue = property.getValue();
 				if (property.getValue() instanceof String) {
-					StringPath propPath = new StringPath(filter.getFrom().getRoot(), propStringPath);
+					StringPath propPath = new StringPathCustom(filter.getFrom().getRoot(), propStringPath);
 					filter.where(propPath.contains(propValue.toString()));
 				} else {
-					ComparablePath path = new ComparablePath(propValue.getClass(), filter.getFrom().getRoot(), propStringPath);
+					ComparablePath path = new ComparablePathCustom(propValue.getClass(), filter.getFrom().getRoot(), propStringPath);
 					filter.where(path.eq(propValue));
 				}
 			}	

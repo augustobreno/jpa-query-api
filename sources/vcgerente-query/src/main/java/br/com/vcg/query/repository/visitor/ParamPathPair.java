@@ -4,8 +4,8 @@ import javax.persistence.criteria.ParameterExpression;
 
 import br.com.vcg.query.api.QueryFilter;
 
-import com.mysema.query.types.ParamExpression;
-import com.mysema.query.types.Path;
+import com.querydsl.core.types.ParamExpression;
+import com.querydsl.core.types.Path;
 
 /**
  * Armazena um par de {@link ParameterExpression} e {@link Path} relacionados.

@@ -11,14 +11,14 @@ import br.com.vcg.query.api.QueryFilter;
 import br.com.vcg.query.domain.Cidade;
 import br.com.vcg.query.domain.Pessoa;
 import br.com.vcg.query.domain.ProjetoServidor;
-import br.com.vcg.query.domain.Servidor;
-import br.com.vcg.query.domain.Uf;
-import br.com.vcg.query.repository.QbeRepository;
 import br.com.vcg.query.domain.QCidade;
 import br.com.vcg.query.domain.QPessoa;
 import br.com.vcg.query.domain.QProjetoServidor;
 import br.com.vcg.query.domain.QServidor;
 import br.com.vcg.query.domain.QUf;
+import br.com.vcg.query.domain.Servidor;
+import br.com.vcg.query.domain.Uf;
+import br.com.vcg.query.repository.QbeRepository;
 
 /**
  * Testa o comportamento do Qbe na realização de join de associações 

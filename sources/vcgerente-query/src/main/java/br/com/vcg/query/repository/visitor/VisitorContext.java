@@ -11,13 +11,13 @@ import br.com.vcg.query.api.QueryFilter;
 import br.com.vcg.query.extension.ParamExample;
 import br.com.vcg.query.repository.operator.CustomOperators;
 
-import com.mysema.query.support.Expressions;
-import com.mysema.query.types.Operation;
-import com.mysema.query.types.Ops;
-import com.mysema.query.types.ParamExpression;
-import com.mysema.query.types.Path;
-import com.mysema.query.types.expr.BooleanExpression;
-import com.mysema.query.types.expr.BooleanOperation;
+import com.querydsl.core.types.Operation;
+import com.querydsl.core.types.Ops;
+import com.querydsl.core.types.ParamExpression;
+import com.querydsl.core.types.Path;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.BooleanOperation;
+import com.querydsl.core.types.dsl.Expressions;
 
 /**
  * Armazena o path e o parâmetro relacionados em uma expressão. 

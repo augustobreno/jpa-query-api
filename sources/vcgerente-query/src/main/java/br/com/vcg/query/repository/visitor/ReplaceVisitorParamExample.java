@@ -5,10 +5,10 @@ import javax.annotation.Nullable;
 import br.com.vcg.query.extension.ParamExample;
 import br.com.vcg.query.repository.QbeContextProcessor;
 
-import com.mysema.query.support.ReplaceVisitor;
-import com.mysema.query.types.Expression;
-import com.mysema.query.types.Operation;
-import com.mysema.query.types.ParamExpression;
+import com.querydsl.core.support.ReplaceVisitor;
+import com.querydsl.core.types.Expression;
+import com.querydsl.core.types.Operation;
+import com.querydsl.core.types.ParamExpression;
 
 /**
  * Visitor para substituir os ParamExample genéricos (com tipagem em Object) para ParamExample com a tipagem correspondente do atributo do exemplo.
@@ -16,7 +16,7 @@ import com.mysema.query.types.ParamExpression;
  * @author augusto
  *
  */
-public class ReplaceVisitorParamExample extends ReplaceVisitor {
+public class ReplaceVisitorParamExample<CONTEXT> extends ReplaceVisitor<CONTEXT> {
 		private final VisitorContext myContext;
 
 		public ReplaceVisitorParamExample(VisitorContext myContext) {
@@ -24,7 +24,7 @@ public class ReplaceVisitorParamExample extends ReplaceVisitor {
 		}
 
 		@Override
-		public Expression<?> visit(Operation<?> expr, Void context) {
+		public Expression<?> visit(Operation<?> expr, CONTEXT context) {
 			
 			/*
 			 * Se a operação corrente foi agendada para ser descartada no visitor anterior,
@@ -43,7 +43,7 @@ public class ReplaceVisitorParamExample extends ReplaceVisitor {
 		
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		@Override
-		public Expression<?> visit(ParamExpression<?> param, @Nullable Void context) {
+		public Expression<?> visit(ParamExpression<?> param, @Nullable CONTEXT context) {
 			
 			/*
 			 * Se o parâmetro for do tipo ParamExample, indica que o valor deverá ser extraído do objeto exemplo,

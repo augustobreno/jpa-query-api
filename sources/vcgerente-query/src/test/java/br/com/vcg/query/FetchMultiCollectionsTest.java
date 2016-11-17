@@ -11,9 +11,9 @@ import org.junit.Test;
 import br.com.vcg.query.api.QueryFilter;
 import br.com.vcg.query.domain.Dependente;
 import br.com.vcg.query.domain.ProjetoServidor;
+import br.com.vcg.query.domain.QServidor;
 import br.com.vcg.query.domain.Servidor;
 import br.com.vcg.query.repository.QbeRepository;
-import br.com.vcg.query.domain.QServidor;
 
 /**
  * Testa o comportamento do Qbe na realização de fetch de mútiplas coleçõews

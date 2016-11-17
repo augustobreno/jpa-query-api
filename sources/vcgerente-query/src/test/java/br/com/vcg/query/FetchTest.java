@@ -13,14 +13,14 @@ import br.com.vcg.query.domain.Cidade;
 import br.com.vcg.query.domain.Dependente;
 import br.com.vcg.query.domain.Pessoa;
 import br.com.vcg.query.domain.ProjetoServidor;
-import br.com.vcg.query.domain.Servidor;
-import br.com.vcg.query.domain.Uf;
-import br.com.vcg.query.repository.QbeRepository;
 import br.com.vcg.query.domain.QCidade;
 import br.com.vcg.query.domain.QPessoa;
 import br.com.vcg.query.domain.QProjetoServidor;
 import br.com.vcg.query.domain.QServidor;
 import br.com.vcg.query.domain.QUf;
+import br.com.vcg.query.domain.Servidor;
+import br.com.vcg.query.domain.Uf;
+import br.com.vcg.query.repository.QbeRepository;
 
 /**
  * Testa o comportamento do Qbe na realização de fetch de associações 
@@ -40,7 +40,7 @@ public class FetchTest extends QbeTestBase {
 		QbeRepository qbe = createQbe();
 
 		QueryFilter<Cidade> filter = new QueryFilter<Cidade>(QCidade.cidade);
-		filter.join(QCidade.cidade.uf()).fetch();
+		filter.join(QCidade.cidade.uf()).fetchJoin();
 		List<Cidade> cidadesQbe = qbe.findAllBy(filter);		
 		
 		
@@ -62,7 +62,7 @@ public class FetchTest extends QbeTestBase {
 		QbeRepository qbe = createQbe();
 
 		QueryFilter<Uf> filter = new QueryFilter<Uf>(QUf.uf);
-		filter.join(QUf.uf.cidades).fetch();
+		filter.join(QUf.uf.cidades).fetchJoin();
 		List<Uf> ufsQbe = qbe.findAllBy(filter);			
 		
 		
@@ -84,8 +84,8 @@ public class FetchTest extends QbeTestBase {
 		QbeRepository qbe = createQbe();
 
 		QueryFilter<Pessoa> filter = new QueryFilter<Pessoa>(QPessoa.pessoa);
-		filter.join(QPessoa.pessoa.cidade(), QCidade.cidade).fetch()
-				.join(QCidade.cidade.uf()).fetch();
+		filter.join(QPessoa.pessoa.cidade(), QCidade.cidade).fetchJoin()
+				.join(QCidade.cidade.uf()).fetchJoin();
 		List<Pessoa> pessoasQbe = qbe.findAllBy(filter);			
 		
 		assertFalse("Não foram encontradas Pessoas.", pessoasQbe.isEmpty());
@@ -113,8 +113,8 @@ public class FetchTest extends QbeTestBase {
 		
 		// carrega a relação "projetos" (coleção), inicializando também o atributo "projeto" para cada ProjetoServidor encontrado
 		QProjetoServidor projetos = new QProjetoServidor("projetos"); //alias
-		filter.join(QServidor.servidor.projetos, projetos).fetch()
-				.join(projetos.projeto()).fetch();
+		filter.join(QServidor.servidor.projetos, projetos).fetchJoin()
+				.join(projetos.projeto()).fetchJoin();
 		
 		List<Servidor> servidoresQbe = qbe.findAllBy(filter);
 		assertFalse("Não foram encontrados Servidores.", servidoresQbe.isEmpty());
@@ -146,8 +146,8 @@ public class FetchTest extends QbeTestBase {
 		// consulta alguns servidores, realizando fetch de seus projetos
 		QueryFilter<ProjetoServidor> filter = new QueryFilter<ProjetoServidor>(QProjetoServidor.projetoServidor);
 		
-		filter.join(QProjetoServidor.projetoServidor.servidor(), QServidor.servidor).fetch()
-				.innerJoin(QServidor.servidor.dependentes).fetch();
+		filter.join(QProjetoServidor.projetoServidor.servidor(), QServidor.servidor).fetchJoin()
+				.innerJoin(QServidor.servidor.dependentes).fetchJoin();
 		
 		List<ProjetoServidor> servidoresQbe = qbe.findAllBy(filter);
 		assertFalse("Não foram encontrados ProjetoServidor.", servidoresQbe.isEmpty());
