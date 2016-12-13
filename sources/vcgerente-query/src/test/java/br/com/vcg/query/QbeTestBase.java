@@ -13,7 +13,6 @@ import org.junit.Ignore;
 
 import br.com.vcg.query.repository.QbeRepository;
 import br.com.vcg.query.repository.QbeRepositoryImpl;
-import br.com.vcg.tests.LocalTransactionTestBase;
 import br.com.vcg.tests.jpa.JPAStandalone;
 import br.com.vcg.tests.util.QuerierUtil;
 
@@ -23,7 +22,7 @@ import br.com.vcg.tests.util.QuerierUtil;
  * @author augusto
  */
 @Ignore
-public class QbeTestBase extends LocalTransactionTestBase {
+public class QbeTestBase extends AppLocalTransactionTestBase {
 
 	/**
 	 * Converte uma String em uma Data Formatada utilizando o formato padrão de data.
