@@ -36,7 +36,6 @@ public class Property {
 	 */
 	public String generateDotNotation() {
 		if (StringUtil.isStringEmpty(dotNotationCache)) {
-			log.log(Level.INFO, "Gerar dotNotationCache");
 			dotNotationCache = generate(field, nestedName);
 		}
 		return dotNotationCache;
