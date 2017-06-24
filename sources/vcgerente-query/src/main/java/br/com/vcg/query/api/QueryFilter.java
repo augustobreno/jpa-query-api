@@ -171,6 +171,17 @@ public class QueryFilter<ENTITY> extends JPAQueryMixin<QueryFilter<ENTITY>> {
     public Map<String, Object> getHints() {
         return hints;
     }
+
+    /**
+     * Configura novo objeto de exemplo.
+     * Equivalente ao método {@link #setExample(Object)}
+     * @param entity Objeto exemplo.
+     * @return this.
+     */
+    public QueryFilter<ENTITY> newExample(ENTITY entity) {
+        setExample(entity);
+        return this;
+    }
     
     
 }
