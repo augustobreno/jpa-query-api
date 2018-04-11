@@ -14,13 +14,11 @@ import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.OneToMany;
 
-import org.hibernate.Session;
+import com.querydsl.core.types.dsl.PathBuilder;
 
 import br.com.vcg.query.api.DetachedFetchFilter;
 import br.com.vcg.query.exception.QbeException;
 import br.com.vcg.query.util.ReflectionUtil;
-
-import com.querydsl.core.types.dsl.PathBuilder;
 
 /**
  * Processa os fetches desatachados para que sejam executados em uma consulta
@@ -199,9 +197,8 @@ public class DetachedFetchesProcessor {
 		}
 	}
 	
-	private void evict(Object primaryEntity) {
-		Session session = (Session) entityManager.getDelegate();
-		session.evict(primaryEntity);
+	private void evict(Object primaryEntity) {		
+		entityManager.detach(primaryEntity);
 	}
 
 	/**

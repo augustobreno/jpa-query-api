@@ -48,13 +48,14 @@ public class OperationsTest extends QbeTestBase {
 		getEntityManager().persist(cidade1);
 		getEntityManager().persist(cidade2);
 		getEntityManager().persist(cidade3);
+		getEntityManager().flush();
 		
 		// cria um exemplo com parametros compativeis com as cidades semelhantes
 		Cidade exemplo = new Cidade();
 		exemplo.setNome(nomeBase);
 		
 		// executa uma consulta com HQL filtrando pelo nome do exemplo
-		String hql = "from " + Cidade.class.getSimpleName() + " cid where cid.nome like ?";
+		String hql = "select cid from " + Cidade.class.getSimpleName() + " cid where cid.nome like ?";
 		List<Cidade> cidadesHQL = getQuerier().searchAndValidateNotEmpty(hql, "%" + exemplo.getNome() + "%");		
 		
 		// executa a consulta utilizando QBE
@@ -89,6 +90,7 @@ public class OperationsTest extends QbeTestBase {
 		getEntityManager().persist(cidade1);
 		getEntityManager().persist(cidade2);
 		getEntityManager().persist(cidade3);
+		getEntityManager().flush();
 		
 		// cria um exemplo com parmetros compat�veis com a cidade encontrada
 		Cidade exemplo = new Cidade();
@@ -130,6 +132,7 @@ public class OperationsTest extends QbeTestBase {
 		
 		getEntityManager().persist(cidade1);
 		getEntityManager().persist(cidade2);
+		getEntityManager().flush();
 		
 		// cria um exemplo configurando o nome comum, mas executa a consulta customizando
 		// o filtro com um valor estático para uf1
