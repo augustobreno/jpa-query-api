@@ -20,6 +20,12 @@ import com.querydsl.jpa.JPAQueryMixin;
 
 public class QueryFilter<ENTITY> extends JPAQueryMixin<QueryFilter<ENTITY>> {
 
+    /** Tamanho padrão para paginação */
+    public static final Long PAGE_SIZE = 10L;
+
+    /** Índice padrão para consulta paginada */
+    public static final Long PAGE_INDEX = 0L;
+    
     /**
      * Objeto cujos valores encontrados em seus atributos e associações serão
      * considerados como restrições dinâmicas na execução da query.
@@ -183,5 +189,38 @@ public class QueryFilter<ENTITY> extends JPAQueryMixin<QueryFilter<ENTITY>> {
         return this;
     }
     
+    /**
+     * Realiza a configuração de paginação. Configura apenas se ambos os
+     * parâmetros forem != null.
+     * 
+     * @param pageSize
+     *            Tamanho da página. Caso não informado, usa o padrão:
+     * @param pageIndex
+     *            Índice da página (0 based);
+     * @return this.
+     */
+    public QueryFilter<ENTITY> paginate(Long pageSize, Long pageIndex) {
+        Long index = pageIndex != null ? pageIndex : PAGE_INDEX;
+        Long size = pageSize != null ? pageSize : PAGE_SIZE;
+        
+        this.limit(size);
+        this.offset(size * index);
+        
+        return this;
+    }
+    
+    /**
+     * @return O valor configurado para paginação em {@link #limit(long)}.
+     */
+    public Long getLimit() {
+        return this.getMetadata().getModifiers().getLimit();
+    }
+
+    /**
+     * @return O valor configurado para paginação em {@link #offset(long)}.
+     */ 
+    public Long getOffset() {
+        return this.getMetadata().getModifiers().getOffset();
+    }
     
 }
