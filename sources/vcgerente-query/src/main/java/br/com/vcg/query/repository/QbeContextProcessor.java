@@ -7,6 +7,16 @@ import java.util.Set;
 
 import javax.persistence.EntityManager;
 
+import com.querydsl.core.Tuple;
+import com.querydsl.core.support.ReplaceVisitor;
+import com.querydsl.core.types.Expression;
+import com.querydsl.core.types.ParamExpression;
+import com.querydsl.core.types.Path;
+import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.ComparablePath;
+import com.querydsl.core.types.dsl.StringPath;
+import com.querydsl.jpa.impl.JPAQuery;
+
 import br.com.vcg.query.api.DetachedFetchFilter;
 import br.com.vcg.query.api.QueryFilter;
 import br.com.vcg.query.exception.QbeException;
@@ -16,14 +26,6 @@ import br.com.vcg.query.repository.visitor.ParamSettingVisitor;
 import br.com.vcg.query.repository.visitor.ReplaceVisitorParamExample;
 import br.com.vcg.query.repository.visitor.VisitorContext;
 import br.com.vcg.query.util.ReflectionUtil;
-
-import com.querydsl.core.support.ReplaceVisitor;
-import com.querydsl.core.types.ParamExpression;
-import com.querydsl.core.types.Path;
-import com.querydsl.core.types.Predicate;
-import com.querydsl.core.types.dsl.ComparablePath;
-import com.querydsl.core.types.dsl.StringPath;
-import com.querydsl.jpa.impl.JPAQuery;
 
 /**
  * Mantém um contexto para a execução de cada consulta realizada, permitindo o compartilhamento
@@ -40,6 +42,14 @@ public class QbeContextProcessor<ENTITY> {
 		this.entityManager = entityManager;
 		this.filter = filter;
 	}
+	
+    public List<Tuple> findAllValuesBy(Expression<?>...expressions) {
+        processPredicates();
+        
+        @SuppressWarnings("unchecked")
+        List<Tuple> result = createJpaQuery().select(expressions).fetch();
+        return result;
+    }   	
 
 	public List<ENTITY> findAllBy() {
 		processPredicates();
