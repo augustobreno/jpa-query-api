@@ -44,6 +44,11 @@ public class QbeRepositoryImpl implements QbeRepository {
     public List<Tuple> findAllValuesBy(QueryFilter<?> filter, Expression<?>... expressions) {
         return createContextProcessor(filter).findAllValuesBy(expressions);
     }
+    
+    @Override
+    public Tuple findValuesBy(QueryFilter<?> filter, Expression<?>... expressions) {
+        return createContextProcessor(filter).findValuesBy(expressions);
+    }    
 
     @Override
     public <ENTITY> long count(QueryFilter<ENTITY> filter) {

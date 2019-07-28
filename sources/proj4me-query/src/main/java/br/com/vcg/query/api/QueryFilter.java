@@ -24,8 +24,8 @@ public class QueryFilter<ENTITY> extends JPAQueryMixin<QueryFilter<ENTITY>> {
     public static final Long PAGE_SIZE = 10L;
 
     /** Índice padrão para consulta paginada */
-    public static final Long PAGE_INDEX = 0L;
-    
+    public static final Long PAGE_INDEX = 1L;
+
     /**
      * Objeto cujos valores encontrados em seus atributos e associações serão
      * considerados como restrições dinâmicas na execução da query.
@@ -63,7 +63,7 @@ public class QueryFilter<ENTITY> extends JPAQueryMixin<QueryFilter<ENTITY>> {
      * Para configuração da Query.
      */
     private Map<String, Object> hints = new HashMap<String, Object>();
-    
+
     /**
      * @param from
      *            Q-type da entidade primária para a construção da consulta.
@@ -133,14 +133,14 @@ public class QueryFilter<ENTITY> extends JPAQueryMixin<QueryFilter<ENTITY>> {
         this.from = from;
     }
 
-    public <E> DetachedFetchFilter<E> detachedFetchFilter(CollectionExpression<?,E> target) {
+    public <E> DetachedFetchFilter<E> detachedFetchFilter(CollectionExpression<?, E> target) {
         if (target instanceof ListPath) {
-            
+
             @SuppressWarnings({ "rawtypes", "unchecked" })
             DetachedFetchFilter<E> detachedFetchFilter = new DetachedFetchFilter<E>(this, (ListPath) target);
             this.detachedCollectionFetchList.add(detachedFetchFilter);
             return detachedFetchFilter;
-            
+
         }
         return null;
     }
@@ -150,7 +150,8 @@ public class QueryFilter<ENTITY> extends JPAQueryMixin<QueryFilter<ENTITY>> {
     }
 
     /**
-     * @param property Nome da propriedade.
+     * @param property
+     *            Nome da propriedade.
      * @return Uma expressão a partir do nome de uma propriedade.
      */
     public PathBuilder<Object> createExpression(String property) {
@@ -160,13 +161,13 @@ public class QueryFilter<ENTITY> extends JPAQueryMixin<QueryFilter<ENTITY>> {
         String alias = getFrom().getMetadata().getName();
         PathBuilder<ENTITY> entityPath = new PathBuilder<ENTITY>(getFrom().getType(), alias);
         return entityPath.get(property);
-        
+
     }
 
     public void addHint(String key, Object value) {
         hints.put(key, value);
     }
-    
+
     /**
      * @return Alias utilizado na construção das consultas no JPA.
      */
@@ -179,36 +180,54 @@ public class QueryFilter<ENTITY> extends JPAQueryMixin<QueryFilter<ENTITY>> {
     }
 
     /**
-     * Configura novo objeto de exemplo.
-     * Equivalente ao método {@link #setExample(Object)}
-     * @param entity Objeto exemplo.
+     * Configura novo objeto de exemplo. Equivalente ao método
+     * {@link #setExample(Object)}
+     * 
+     * @param entity
+     *            Objeto exemplo.
      * @return this.
      */
     public QueryFilter<ENTITY> newExample(ENTITY entity) {
         setExample(entity);
         return this;
     }
-    
+
     /**
      * Realiza a configuração de paginação. Configura apenas se ambos os
      * parâmetros forem != null.
      * 
      * @param pageSize
-     *            Tamanho da página. Caso não informado, usa o padrão:
+     *            Tamanho da página. Caso não informado, usa o padrão
+     *            {@link #PAGE_SIZE}
      * @param pageIndex
-     *            Índice da página (0 based);
+     *            Índice da página (1 based). Caso não informado, usa o padrão
+     *            {@link #PAGE_INDEX};
      * @return this.
      */
-    public QueryFilter<ENTITY> paginate(Long pageSize, Long pageIndex) {
-        Long index = pageIndex != null ? pageIndex : PAGE_INDEX;
-        Long size = pageSize != null ? pageSize : PAGE_SIZE;
-        
-        this.limit(size);
-        this.offset(size * index);
-        
+    public QueryFilter<ENTITY> fetchPage(Long pageSize, Long pageIndex) {
+        Long index = pageIndex != null && pageIndex > 0 ? pageIndex : PAGE_INDEX;
+        Long size = pageSize != null && pageSize > 0? pageSize : PAGE_SIZE;
+        return this.fetchRange((index - 1) * size, size);
+    }
+
+    /**
+     * Configures this to load a range of elements in result set. This
+     * configuration will be applied only if limit were informed.
+     * 
+     * @param offset
+     *            Index of first element to fetch. Default is "0".
+     * @param limit
+     *            Max number of elements to fetch.
+     * @return this.
+     */
+    public QueryFilter<ENTITY> fetchRange(Long offset, Long limit) {
+        if (limit != null) {
+            this.offset(offset != null ? offset : 0);
+            this.limit(limit);
+        }
         return this;
     }
-    
+
     /**
      * @return O valor configurado para paginação em {@link #limit(long)}.
      */
@@ -218,9 +237,9 @@ public class QueryFilter<ENTITY> extends JPAQueryMixin<QueryFilter<ENTITY>> {
 
     /**
      * @return O valor configurado para paginação em {@link #offset(long)}.
-     */ 
+     */
     public Long getOffset() {
         return this.getMetadata().getModifiers().getOffset();
     }
-    
+
 }

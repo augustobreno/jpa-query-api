@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 
 import br.com.vcg.query.util.AlternativeLocalEntityManagerProducer;
 import br.com.vcg.tests.LocalTransactionTestBase;
-import br.com.vcg.tests.cdi.LoggerProducer;
+import br.com.vcg.tests.cdi.LoggerForTestProducer;
 import br.com.vcg.tests.jpa.JpaStandaloneProducer;
 
 /**
@@ -15,7 +15,7 @@ import br.com.vcg.tests.jpa.JpaStandaloneProducer;
  * no contexto da aplicação local. 
  * @author Augusto
  */
-@AdditionalClasses({LoggerProducer.class, JpaStandaloneProducer.class})
+@AdditionalClasses({LoggerForTestProducer.class, JpaStandaloneProducer.class})
 @ActivatedAlternatives({AlternativeLocalEntityManagerProducer.class})
 @RunWith(CdiRunner.class)
 public class AppLocalTransactionTestBase extends LocalTransactionTestBase {

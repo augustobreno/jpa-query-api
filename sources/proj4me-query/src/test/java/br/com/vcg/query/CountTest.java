@@ -116,7 +116,7 @@ public class CountTest extends QbeTestBase {
 		getJpa().getEm().clear();
 		
 		// utiliza uma consulta hql para compara��o
-		String hql = "select count(p.id) from Pessoa p where p.email=? and ( p.cpf=? or (p.dataNascimento is null  or p.dataNascimento > ?) ) ";
+		String hql = "select count(p.id) from Pessoa p where p.email=?0 and ( p.cpf=?1 or (p.dataNascimento is null  or p.dataNascimento > ?2) ) ";
 		Long pessoasHQL = getQuerier().executeCountQuery(getEntityManager(), hql, p2.getEmail(), p1.getCpf(), p1.getDataNascimento());
 		
 		// Configura o filtro

@@ -49,7 +49,17 @@ public class QbeContextProcessor<ENTITY> {
         @SuppressWarnings("unchecked")
         List<Tuple> result = createJpaQuery().select(expressions).fetch();
         return result;
-    }   	
+    }
+    
+    public Tuple findValuesBy(Expression<?>...expressions) {
+        processPredicates();
+        
+        @SuppressWarnings("unchecked")
+        List<Tuple> result = createJpaQuery()
+        	.select(expressions)
+        	.fetch();
+        return result.size() > 0 ? result.get(0) : null;
+    }    
 
 	public List<ENTITY> findAllBy() {
 		processPredicates();

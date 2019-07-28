@@ -17,6 +17,17 @@ public interface QbeRepository {
      */
     public List<Tuple> findAllValuesBy(QueryFilter<?> filter, Expression<?>...expressions);    
     
+    /**
+	 * Search for a single tuple of simple values (a projection).
+	 * 
+	 * @param filter      restrictions for search. It must be build to reduce result
+	 *                    to a single result. If not, will be return the first
+	 *                    element found.
+	 * @param expressions expressions to set projection.
+	 * @return Single tuple.
+	 */
+    public abstract Tuple findValuesBy(QueryFilter<?> filter, Expression<?>...expressions);
+    
 	/**
 	 * Consulta todas as entidades equivalentes às configurações encontradas no
 	 * filtro informado.
@@ -34,6 +45,6 @@ public interface QbeRepository {
 	 * @param queryFilter Filtro com restrições para a query.
 	 * @return Número de registros que se adequam ao filtro.
 	 */
-	public abstract <ENTITY> long count(QueryFilter<ENTITY> queryFilter);
+	public abstract <ENTITY> long count(QueryFilter<ENTITY> queryFilter);	
 
 }

@@ -55,7 +55,7 @@ public class OperationsTest extends QbeTestBase {
 		exemplo.setNome(nomeBase);
 		
 		// executa uma consulta com HQL filtrando pelo nome do exemplo
-		String hql = "select cid from " + Cidade.class.getSimpleName() + " cid where cid.nome like ?";
+		String hql = "select cid from " + Cidade.class.getSimpleName() + " cid where cid.nome like ?0";
 		List<Cidade> cidadesHQL = getQuerier().searchAndValidateNotEmpty(hql, "%" + exemplo.getNome() + "%");		
 		
 		// executa a consulta utilizando QBE
@@ -97,7 +97,7 @@ public class OperationsTest extends QbeTestBase {
 		exemplo.setNome(cidade1.getNome());
 		
 		// executa uma consulta com HQL filtrando pelo nome do exemplo
-		String hql = "from " + Cidade.class.getSimpleName() + " cid where cid.nome = ?";
+		String hql = "from " + Cidade.class.getSimpleName() + " cid where cid.nome = ?0";
 		List<Cidade> cidadesHQL = getQuerier().searchAndValidateNotEmpty(hql, exemplo.getNome());		
 		
 		// executa a consulta utilizando QBE
@@ -168,7 +168,7 @@ public class OperationsTest extends QbeTestBase {
 		exemplo.setUf(uf);
 		
 		// executa uma consulta com HQL filtrando pelo nome do exemplo
-		String hql = "from " + Cidade.class.getSimpleName() + " cid where cid.uf = ?";
+		String hql = "from " + Cidade.class.getSimpleName() + " cid where cid.uf = ?0";
 		List<Cidade> cidadesHQL = getQuerier().searchAndValidateNotEmpty(hql, uf);		
 		
 		// executa a consulta utilizando QBE
