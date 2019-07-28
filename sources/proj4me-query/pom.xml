@@ -12,7 +12,7 @@
 		<java.target.version>1.8</java.target.version>
 		<apt-maven-plugin>1.1.3</apt-maven-plugin>
 		<hibernate.version>5.3.6.Final</hibernate.version>
-		<p4m-api-tests>1.4.20190725</p4m-api-tests>
+		<p4m-api-tests>1.6</p4m-api-tests>
 		<cdi.version>1.2</cdi.version>
 		<deltaspike.version>1.8.2</deltaspike.version>
 		<querydsl.version>4.1.4</querydsl.version>
