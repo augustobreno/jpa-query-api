@@ -85,18 +85,38 @@ public class QbeContextProcessor<ENTITY> {
 		}
 	}
 
+	/**
+	 * 
+	 */
 	public long count() {
 		processPredicates();
-		return createJpaQuery().fetchCount();
+		JPAQuery<?> query = createJpaQuery();
+		return query.fetchCount();
 	}
 	
-	protected JPAQuery createJpaQuery() {
-		JPAQuery jpaQuery = new JPAQuery(entityManager, CustomTemplates.INSTANCE, filter.getMetadata());
+	/**
+	 * Count a projection result.
+	 * JPA has a limitation to run COUNT + PROJECTION, it will always do count by ID. So,
+	 * let's implement a workaround (performance may be impacted).
+	 * @param query Query configuration
+	 * @param expressions Projection to apply on count. 
+	 */
+	public long countProjection(Expression<?>[] expressions) {
+		processPredicates();
+		JPAQuery<?> query = createJpaQuery();
+		query.getMetadata().setOffset(0L);
+		query.getMetadata().setLimit(Long.MAX_VALUE);
+		query.select(expressions);		
+		return query.fetch().size();
+	}
+
+	protected JPAQuery<?> createJpaQuery() {
+		JPAQuery<?> jpaQuery = new JPAQuery(entityManager, CustomTemplates.INSTANCE, filter.getMetadata());
 		addHints(jpaQuery);
         return jpaQuery;
 	}
 
-	private void addHints(JPAQuery jpaQuery) {
+	private void addHints(JPAQuery<?> jpaQuery) {
         for (Entry<String, Object> hint : filter.getHints().entrySet()) {
             jpaQuery.setHint(hint.getKey(), hint.getValue());
         }
