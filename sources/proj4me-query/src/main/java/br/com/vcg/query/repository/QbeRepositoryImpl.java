@@ -54,6 +54,11 @@ public class QbeRepositoryImpl implements QbeRepository {
     public <ENTITY> long count(QueryFilter<ENTITY> filter) {
         return createContextProcessor(filter).count();
     }
+    
+    @Override
+    public <ENTITY> long countProjection(QueryFilter<ENTITY> filter, Expression<?>...expressions) {
+        return createContextProcessor(filter).countProjection(expressions);
+    }    
 
     protected <ENTITY> QbeContextProcessor<ENTITY> createContextProcessor(QueryFilter<? extends ENTITY> filter) {
         return new QbeContextProcessor<ENTITY>(entityManager, filter);

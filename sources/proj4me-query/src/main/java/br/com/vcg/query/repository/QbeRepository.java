@@ -45,6 +45,15 @@ public interface QbeRepository {
 	 * @param queryFilter Filtro com restrições para a query.
 	 * @return Número de registros que se adequam ao filtro.
 	 */
-	public abstract <ENTITY> long count(QueryFilter<ENTITY> queryFilter);	
+	public abstract <ENTITY> long count(QueryFilter<ENTITY> queryFilter);
+	
+	/**
+	 * Conta o número de registros existentes de acordo com as configurações/restrições
+	 * encontradas no filtro.
+	 * @param queryFilter Filtro com restrições para a query.
+	 * @param expressions Projection to apply on count. By default will count on ID property (of target entity).
+	 * @return Número de registros que se adequam ao filtro.
+	 */
+	public abstract <ENTITY> long countProjection(QueryFilter<ENTITY> queryFilter, Expression<?>...expressions);	
 
 }
